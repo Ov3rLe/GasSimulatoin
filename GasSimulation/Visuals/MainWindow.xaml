@@ -1,0 +1,294 @@
+﻿<Window x:Class="GasSimulation.Visuals.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GasSimulation"
+        xmlns:w="clr-namespace:GasSimulation.Visuals"
+        mc:Ignorable="d"
+        Title="Particles" Height="720"  Width="1440" 
+        ResizeMode="NoResize"
+        Icon="..\Visuals\Images\icon.png"
+        Closing="Window_Closing">
+
+    <Window.Resources>
+        <Style TargetType="Border">
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+        
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Foreground" Value="#FFAC4C6C"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="TextStyle">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="CheckTextStyle">
+            <Setter Property="Foreground" Value="#FF75A5D4"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="#FF75A5D4"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" 
+                                 MappingMode="RelativeToBoundingBox">
+
+                <GradientStop Color="#FF563A6C" Offset="0.5"/>
+                <GradientStop Color="#FF6684A2" Offset="0.85"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="1.1*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="1.5*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="1"  Grid.Column="1" Grid.ColumnSpan="3"
+                BorderBrush="Transparent">
+
+            <TextBlock Name="PerformanceInfoBlock" Style="{StaticResource TextStyle}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center">
+                Collisions/Frame: 0, Frames in queue: 0
+            </TextBlock>
+        </Border>
+
+        <Border Grid.Row="3" Grid.RowSpan="3" Grid.Column="5"/>
+
+        <Border Grid.Row="3" Grid.Column="5" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Settings" HorizontalAlignment="Center"
+                           Padding="0,5,0,0"
+                           Style="{StaticResource TextStyle}"/>
+
+                <TextBlock Text="(Reset to apply)" FontSize="9" 
+                           Padding="0,0,0,5"
+                           HorizontalAlignment="Center"
+                           Style="{StaticResource TextStyle}"/>
+
+                <Border BorderBrush="Transparent" Padding="15,0,0,0" 
+                        PreviewTextInput="CheckSettingInput">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Amount of particles:" FontSize="16"
+                                   Grid.Column="0" Grid.Row="0"
+                                   HorizontalAlignment="Left"
+                                   Padding="0,0,0,5"
+                                   Style="{StaticResource TextStyle}"/>
+                        
+                        <TextBlock Text="Speed scatter:" FontSize="16"
+                                   Grid.Column="0" Grid.Row="1"
+                                   HorizontalAlignment="Left"
+                                   Padding="0,0,0,5"
+                                   Style="{StaticResource TextStyle}"/>
+
+                        <TextBlock Text="Size scatter:" FontSize="16"
+                                   Grid.Column="0" Grid.Row="2"
+                                   HorizontalAlignment="Left"
+                                   Padding="0,0,0,5"
+                                   Style="{StaticResource TextStyle}"/>
+
+                        <TextBlock Text="Big particle" FontSize="16"
+                                   Grid.Column="0" Grid.Row="3"
+                                   Name="BigParticleCheck"
+                                   HorizontalAlignment="Left"
+                                   Padding="0,5,0,0"
+                                   Foreground="#FFA8A8A8"
+                                   Style="{StaticResource CheckTextStyle}"
+                                   MouseDown="InfoCheckChanged"/>
+
+                        <TextBlock Text="Size multiplier:" FontSize="16"
+                                   Grid.Column="0" Grid.Row="5"
+                                   HorizontalAlignment="Left"
+                                   Style="{StaticResource TextStyle}"/>
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                            <TextBox Name="AmountBox" Width="50" Height="25"
+                                     Text="400"
+                                     TextChanged="SettingsChanged"/>
+
+                            <TextBlock Text="max 500" VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Padding="5,0,0,0"
+                                       Style="{StaticResource TextStyle}"/>            
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+                            <TextBox Name="SpeedBox" Width="50" Height="25"
+                                     Text="5"
+                                     TextChanged="SettingsChanged"/>
+
+                            <TextBlock Text="max 10" VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Padding="5,0,0,0"
+                                       Style="{StaticResource TextStyle}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
+                            <TextBox Name="SizesBox" Width="50" Height="25"
+                                     Text="1"
+                                     TextChanged="SettingsChanged"/>
+
+                            <TextBlock Text="max 5" VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Padding="5,0,0,0"
+                                       Style="{StaticResource TextStyle}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="4">
+                            <TextBox Name="SizeMultBox" Width="50" Height="25"
+                                     Text="20"
+                                     TextChanged="SettingsChanged"/>
+
+                            <TextBlock Text="max 25" VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Padding="5,0,0,0"
+                                       Style="{StaticResource TextStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="4" Grid.Column="5">
+            <StackPanel>
+                
+
+            <StackPanel>
+                    <TextBlock Text="Tracking" HorizontalAlignment="Center"
+                               Padding="0,5,0,0"
+                               Style="{StaticResource TextStyle}"/>
+
+                    <TextBlock FontSize="9" 
+                               Padding="0,0,0,5"                     
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center"
+                               Style="{StaticResource TextStyle}">
+                        
+                        (Click on a particle to start tracking)
+                        <LineBreak/>
+                        (Click to enable/disable)
+                    </TextBlock>
+                </StackPanel>
+
+                <Border BorderBrush="Transparent" Padding="0,20,0,0">
+                    <StackPanel>
+                        <TextBlock Name="VelocityCheck" Text="Show velocity vector"
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource CheckTextStyle}"
+                                   MouseDown="InfoCheckChanged"/>
+
+                        <TextBlock Name="TrajectoryCheck" Text="Show trajectory line" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource CheckTextStyle}"
+                                   MouseDown="InfoCheckChanged"/>
+
+                        <TextBlock Name="HideCheck" Text="Hide not tracked"                
+                                   HorizontalAlignment="Center"               
+                                   Style="{StaticResource CheckTextStyle}"
+                                   Foreground="#FFA8A8A8"
+                                   MouseDown="InfoCheckChanged"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="5" Grid.Column="5" BorderBrush="Transparent">
+            <StackPanel>
+                <TextBlock Text="Tracked particles" HorizontalAlignment="Center"
+                           Padding="0,5,0,0"
+                           Style="{StaticResource TextStyle}"/>
+                
+                <TextBlock Text="(Up to 3)" FontSize="9" 
+                           HorizontalAlignment="Center"
+                           Padding="0,0,0,5"
+                           Style="{StaticResource TextStyle}"/>
+
+                <TextBlock Name="ParticleInfoBlock"
+                           Foreground="White" FontSize="11" 
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+
+
+        <Border Name="CanvasContainer" Background="Black"   
+                Grid.Row="3" Grid.Column="1"
+                Grid.RowSpan="3" Grid.ColumnSpan="3"/>
+
+        <StackPanel Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3"
+                    Orientation="Horizontal" HorizontalAlignment="Center">
+            
+            <Button Content="Start" Name ="StartButton"
+                    Click="Start" />
+
+            <Button Content="Step" Name="StepButton" 
+                    IsEnabled="True" Click="Step" />
+
+            <Button Content="Stop" Name="StopButton" 
+                    IsEnabled="False" Click="Stop"/>
+
+            <Button Content="Reset" Name="ResetButton"
+                    Click="Reset"/>
+
+        </StackPanel>
+    </Grid>
+</Window>

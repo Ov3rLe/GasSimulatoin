@@ -1,0 +1,11 @@
+﻿<Application
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:GasSimulation"
+             xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Class="GasSimulation.App"
+             StartupUri="Visuals/MainWindow.xaml">
+
+    <Application.Resources>
+
+    </Application.Resources>
+</Application>
